@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hostel Bill Manager</title>
+    <link rel="stylesheet" href="styles/common.css">
+    <link rel="stylesheet" href="styles/home.css">
+    <link rel="manifest" href="manifest.json">
+</head>
+<body>
+    <div class="container">
+        <header class="app-header">
+            <h1>Hostel Bill Manager</h1>
+            <p>Track and split expenses easily</p>
+        </header>
+
+        <div class="main-menu">
+            <div class="menu-card new-bill" onclick="navigateTo('new-bill.html')">
+                <div class="card-icon">➕</div>
+                <h3>New Bill Count</h3>
+                <p>Start a new expense calculation</p>
+            </div>
+
+            <div class="menu-card previous-bills" onclick="navigateTo('previous-bills.html')">
+                <div class="card-icon">📋</div>
+                <h3>Previous Bill Counts</h3>
+                <p>View your saved calculations</p>
+            </div>
+        </div>
+
+        <div class="quick-stats">
+            <h3>Quick Stats</h3>
+            <div class="stats-grid">
+                <div class="stat-item">
+                    <span class="stat-number" id="totalBills">0</span>
+                    <span class="stat-label">Total Bills</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-number" id="totalAmount">₹0</span>
+                    <span class="stat-label">Total Amount</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="js/app.js"></script>
+    <script src="js/storage.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const bills = getBills();
+            document.getElementById('totalBills').textContent = bills.length;
+            const totalAmount = bills.reduce((sum, bill) => sum + bill.totalAmount, 0);
+            document.getElementById('totalAmount').textContent = `₹${totalAmount.toFixed(2)}`;
+        });
+    </script>
+</body>
+</html>
