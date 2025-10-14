@@ -1,0 +1,149 @@
+.bill-info-bar {
+    background: white;
+    padding: 15px 20px;
+    border-radius: var(--border-radius);
+    box-shadow: var(--shadow);
+    margin-bottom: 20px;
+    display: flex;
+    align-items: center;
+    font-weight: 500;
+}
+
+.calculator-container {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.input-section, .entries-log, .totals-section {
+    background: white;
+    padding: 20px;
+    border-radius: var(--border-radius);
+    box-shadow: var(--shadow);
+}
+
+.participant-badges {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-top: 10px;
+}
+
+.participant-badge {
+    padding: 10px 15px;
+    background: var(--light);
+    border-radius: 20px;
+    font-size: 14px;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    cursor: pointer;
+    transition: var(--transition);
+    border: 2px solid transparent;
+}
+
+.participant-badge.active {
+    background: var(--primary);
+    color: white;
+    border-color: var(--primary-dark);
+}
+
+.btn-row {
+    display: flex;
+    gap: 10px;
+    margin-top: 15px;
+}
+
+.btn-row button {
+    margin-bottom: 0;
+}
+
+.search-bar {
+    position: relative;
+    margin-bottom: 15px;
+}
+
+.search-icon {
+    position: absolute;
+    left: 12px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: var(--gray);
+}
+
+.search-bar input {
+    padding-left: 35px;
+}
+
+.entries-log {
+    max-height: 400px;
+    overflow-y: auto;
+}
+
+.entry-item {
+    padding: 15px;
+    margin: 10px 0;
+    background: var(--light);
+    border-radius: 8px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-left: 4px solid var(--primary);
+}
+
+.entry-item.view-entry {
+    cursor: default;
+}
+
+.action-btns {
+    display: flex;
+    gap: 8px;
+}
+
+.delete-btn, .edit-btn {
+    border: none;
+    padding: 6px 12px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 12px;
+    transition: background 0.2s;
+}
+
+.delete-btn { 
+    background: var(--danger); 
+    color: white; 
+}
+
+.edit-btn { 
+    background: var(--secondary); 
+    color: white; 
+}
+
+.totals, .final-totals {
+    padding: 15px;
+    border-radius: 8px;
+    margin: 10px 0;
+}
+
+.totals { 
+    background: #e9f7ef; 
+    border-left: 4px solid var(--primary);
+}
+
+.final-totals { 
+    background: #fff3cd; 
+    border-left: 4px solid var(--warning);
+}
+
+.action-buttons {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-top: 20px;
+}
+
+.view-mode .input-section,
+.view-mode .btn-row,
+.view-mode .action-buttons {
+    display: none;
+}
