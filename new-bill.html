@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>New Bill - Hostel Bill Manager</title>
+    <link rel="stylesheet" href="styles/common.css">
+    <link rel="stylesheet" href="styles/new-bill.css">
+</head>
+<body>
+    <div class="container">
+        <header class="page-header">
+            <button class="back-btn" onclick="goBack()">←</button>
+            <h1>New Bill Count</h1>
+        </header>
+
+        <div class="form-container">
+            <div class="input-group">
+                <label for="billName">Bill Name</label>
+                <input type="text" id="billName" placeholder="e.g., January Food Bill" required>
+            </div>
+
+            <div class="input-group">
+                <label for="billDate">Date</label>
+                <input type="date" id="billDate" required>
+            </div>
+
+            <div class="input-group">
+                <label for="billDescription">Description (Optional)</label>
+                <textarea id="billDescription" placeholder="Add any notes about this bill..."></textarea>
+            </div>
+
+            <button class="btn-primary" onclick="createNewBill()">Start Counting Bill</button>
+        </div>
+    </div>
+
+    <script src="js/app.js"></script>
+    <script src="js/storage.js"></script>
+    <script>
+        document.getElementById('billDate').valueAsDate = new Date();
+
+        function createNewBill() {
+            const billName = document.getElementById('billName').value.trim();
+            const billDate = document.getElementById('billDate').value;
+            const description = document.getElementById('billDescription').value.trim();
+
+            if (!billName) {
+                alert('Please enter a bill name');
+                return;
+            }
+
+            if (!billDate) {
+                alert('Please select a date');
+                return;
+            }
+
+            const newBill = {
+                id: Date.now().toString(),
+                name: billName,
+                date: billDate,
+                description: description,
+                createdAt: new Date().toISOString(),
+                entries: [],
+                totals: { 'Z': 0, 'U': 0, 'M': 0, 'B': 0, 'A': 0 },
+                finalTotals: null
+            };
+
+            sessionStorage.setItem('currentBill', JSON.stringify(newBill));
+            navigateTo('calculator.html');
+        }
+    </script>
+</body>
+</html>
