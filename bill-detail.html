@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bill Details - Hostel Bill Manager</title>
+    <link rel="stylesheet" href="styles/common.css">
+    <link rel="stylesheet" href="styles/calculator.css">
+</head>
+<body>
+    <div class="container">
+        <header class="page-header">
+            <button class="back-btn" onclick="goBack()">←</button>
+            <h1 id="billDetailTitle">Bill Details</h1>
+        </header>
+
+        <div class="bill-info-bar">
+            <span id="billDetailInfo"></span>
+            <button class="btn-danger" onclick="deleteBill()" style="margin-left: auto;">Delete</button>
+        </div>
+
+        <div class="calculator-container view-mode">
+            <div class="entries-log">
+                <h3>Entries</h3>
+                <div id="detailEntriesList"></div>
+            </div>
+
+            <div class="totals-section">
+                <div class="final-totals" id="detailFinalTotals"></div>
+            </div>
+        </div>
+    </div>
+
+    <script src="js/app.js"></script>
+    <script src="js/storage.js"></script>
+    <script>
+        let currentBillId = null;
+
+        document.addEventListener('DOMContentLoaded', function() {
+            const urlParams = new URLSearchParams(window.location.search);
+            currentBillId = urlParams.get('id');
+            
+            if (currentBillId) {
+                loadBillDetail(currentBillId);
+            }
+        });
+
+        function loadBillDetail(billId) {
+            const bills = getBills();
+            const bill = bills.find(b => b.id === billId);
+            
+            if (bill) {
+                document.getElementById('billDetailTitle').textContent = bill.name;
+                document.getElementById('billDetailInfo').textContent = 
+                    `Date: ${new Date(bill.date).toLocaleDateString()}${bill.description ? ` • ${bill.description}` : ''}`;
+                
+                const entriesList = document.getElementById('detailEntriesList');
+                entriesList.innerHTML = '';
+                
+                bill.entries.forEach(entry => {
+                    const names = entry.participants.split('').map(c => nameMap[c]).join(', ');
+                    const entryDiv = document.createElement('div');
+                    entryDiv.className = 'entry-item view-entry';
+                    entryDiv.innerHTML = `
+                        <div>
+                            <div><strong>₹${entry.price.toFixed(2)}</strong> - ${names}</div>
+                            <div style="font-size: 14px; color: #6c757d;">
+                                ${entry.description || ''}
+                            </div>
+                        </div>
+                    `;
+                    entriesList.appendChild(entryDiv);
+                });
+
+                if (bill.finalTotals) {
+                    let html = '<h3>Final Bill:</h3>';
+                    let totalSum = 0;
+                    for(const [code,total] of Object.entries(bill.finalTotals)) {
+                        html += `${nameMap[code]}: ₹${total.toFixed(2)}<br>`;
+                        totalSum += total;
+                    }
+                    html += `<hr><strong>Total Amount: ₹${totalSum.toFixed(2)}</strong><br>`;
+                    html += `<strong>Total Amount pay to Shah jee: ₹${totalSum.toFixed(2)}</strong>`;
+                    document.getElementById('detailFinalTotals').innerHTML = html;
+                }
+            }
+        }
+
+        function deleteBill() {
+            if (confirm('Are you sure you want to delete this bill? This action cannot be undone.')) {
+                const bills = getBills();
+                const updatedBills = bills.filter(bill => bill.id !== currentBillId);
+                localStorage.setItem('hostelBills', JSON.stringify(updatedBills));
+                navigateTo('previous-bills.html');
+            }
+        }
+    </script>
+</body>
+</html>
